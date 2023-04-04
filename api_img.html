@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<style>
+		*,
+		*::after,
+		*::before {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		button {
+			margin-top: 50px;
+			padding: 30px;
+			background-color: burlywood;
+			border: 1px solid brown;
+			font-size: 25px;
+		}
+
+		.container-img {
+			width: 70vw;
+			height: 75vh;
+			background-color: red;
+		}
+
+
+		a {
+			margin: 25px;
+			font-size: 25px;
+			text-decoration: none;
+			color: blanchedalmond;
+			background-color: yellowgreen;
+			padding: 25px;
+			border-radius: 35px;
+			border: 5px solid blanchedalmond;
+		}
+	</style>
+
+	<a href="./index.html">Назад</a>
+
+	<button>
+		Click on me
+	</button>
+	<div class="container-img">
+	</div>
+	<script>
+		const button = document.querySelector('button');
+		const imageContainer = document.querySelector('.container-img');
+		const apiUrl = 'https://api.unsplash.com/search/photos?query=spring&per_page=30&orientation=landscape&client_id=SouHY7Uul-OxoMl3LL3c0NkxUtjIrKwf3tsGk1JaiVo';
+		let images = [];
+
+		button.addEventListener('click', () => {
+			if (images.length > 0) {
+				const randomIndex = Math.floor(Math.random() * images.length);
+				const imageUrl = images[randomIndex].urls.regular;
+				imageContainer.style.backgroundImage = `url(${imageUrl})`;
+				images.splice(randomIndex, 1);
+			} else {
+				fetch(apiUrl)
+					.then(response => response.json())
+					.then(data => {
+						images = data.results;
+						const randomIndex = Math.floor(Math.random() * images.length);
+						const imageUrl = images[randomIndex].urls.regular;
+						imageContainer.style.backgroundImage = `url(${imageUrl})`;
+						images.splice(randomIndex, 1);
+					})
+					.catch(error => console.error('Произошла ошибка при загрузке данных с сервера:', error));
+			}
+		});
+
+	</script>
+</body>
+
+</html>

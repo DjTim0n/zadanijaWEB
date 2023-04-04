@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<style>
+		*,
+		*::after,
+		*::before {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		button {
+			margin: 100px;
+			padding: 30px;
+			background-color: burlywood;
+			border: 1px solid brown;
+			font-size: 25px;
+		}
+
+		a {
+			margin: 25px;
+			font-size: 25px;
+			text-decoration: none;
+			color: blanchedalmond;
+			background-color: yellowgreen;
+			padding: 25px;
+			border-radius: 35px;
+			border: 5px solid blanchedalmond;
+		}
+	</style>
+
+	<a href="./index.html">Назад</a>
+
+	<button>
+		Click on me
+	</button>
+	<div class="">
+
+	</div>
+	<script>
+		let btn = document.querySelector("button")
+		btn.addEventListener("click", (e) => {
+
+			fetch('https://type.fit/api/quotes')
+				.then(response => response.json())
+				.then(data => {
+					const quote = data[Math.floor(Math.random() * data.length)];
+					const quoteText = quote.text;
+					const quoteAuthor = quote.author || 'Неизвестный автор';
+					const quoteElement = document.createElement('div');
+					quoteElement.innerHTML = `<p>${quoteText}</p><p>${quoteAuthor}</p>`;
+					const existingQuoteElements = document.querySelectorAll('div');
+					existingQuoteElements.forEach(element => element.remove());
+					document.body.appendChild(quoteElement);
+				})
+				.catch(error => console.error('Произошла ошибка при загрузке данных с сервера:', error));
+
+		}) 
+	</script>
+</body>
+
+</html>
